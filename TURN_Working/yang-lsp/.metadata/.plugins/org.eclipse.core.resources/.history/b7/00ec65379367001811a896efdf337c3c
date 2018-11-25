@@ -1,0 +1,9 @@
+grammar mcgill.xtext.turn.TURN with org.eclipse.xtext.common.Terminals
+
+generate tURN "http://www.xtext.mcgill/turn/TURN"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';

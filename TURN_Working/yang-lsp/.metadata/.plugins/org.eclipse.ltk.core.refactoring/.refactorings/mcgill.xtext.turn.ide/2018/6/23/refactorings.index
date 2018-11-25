@@ -1,0 +1,30 @@
+1528241510395	Rename package 'codeAction'
+1528241531072	Rename package 'org.xtext.example.codeAction'
+1528241551288	Rename package 'formatting'
+1528241571536	Rename package 'extensions'
+1528241595582	Rename package 'completion'
+1528241603139	Rename package 'codelens'
+1528241621472	Rename package 'rename'
+1528241631206	Rename package 'symbols'
+1528242045464	Delete element
+1528242088444	Rename resource 'YangContentAssistService.xtend'
+1528242206600	Rename resource 'YangContentProposalAcceptor.xtend'
+1528242219853	Rename resource 'YangContentProposalCreator.xtend'
+1528242249985	Rename resource 'YangContentProposalProvider.xtend'
+1528244057145	Delete element
+1528244068328	Delete element
+1528244074381	Delete element
+1528244080517	Delete element
+1528244085356	Delete element
+1528244089953	Delete element
+1528244135053	Rename resource 'YangDocumentSymbolService.xtend'
+1528244151080	Rename resource 'YangFormattingService.xtend'
+1528244159556	Rename resource 'YangRenameStrategy.xtend'
+1528327964739	Rename package 'org.xtext.example.mydsl.ide'
+1528327999065	Rename package 'org.xtext.example.mydsl.ide.codeAction'
+1528328024962	Rename package 'org.xtext.example.mydsl.ide.completion'
+1528328034692	Rename package 'org.xtext.example.mydsl.ide.formatting'
+1528328044994	Rename package 'org.xtext.example.mydsl.ide.rename'
+1528328053745	Rename package 'org.xtext.example.mydsl.ide.symbols'
+1528494035768	Rename package 'extensions'
+1528494151825	Rename package 'codelens'

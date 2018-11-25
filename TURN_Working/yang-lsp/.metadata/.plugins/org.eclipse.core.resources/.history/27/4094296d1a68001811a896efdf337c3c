@@ -1,0 +1,623 @@
+/**
+ * Copyright (C) 2017 TypeFox and others.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ */
+package mcgill.xtext.turn.diagram;
+
+import com.google.inject.Inject;
+import io.typefox.sprotty.api.IDiagramState;
+import io.typefox.sprotty.api.LayoutOptions;
+import io.typefox.sprotty.api.SButton;
+import io.typefox.sprotty.api.SCompartment;
+import io.typefox.sprotty.api.SEdge;
+import io.typefox.sprotty.api.SGraph;
+import io.typefox.sprotty.api.SLabel;
+import io.typefox.sprotty.api.SModelElement;
+import io.typefox.sprotty.api.SModelRoot;
+import io.typefox.sprotty.api.SNode;
+import io.typefox.sprotty.server.xtext.IDiagramGenerator;
+import io.typefox.sprotty.server.xtext.tracing.ITraceProvider;
+import io.typefox.sprotty.server.xtext.tracing.Traceable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import mcgill.xtext.turn.diagram.YangHeaderNode;
+import mcgill.xtext.turn.diagram.YangLabel;
+import mcgill.xtext.turn.diagram.YangNode;
+import mcgill.xtext.turn.diagram.YangTag;
+import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.util.CancelIndicator;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+
+@SuppressWarnings("all")
+public class YangDiagramGenerator implements IDiagramGenerator {
+  private final static Logger LOG = Logger.getLogger(YangDiagramGenerator.class);
+  
+  private final static String COMPOSITION_EDGE_TYPE = "composition";
+  
+  private final static String STRAIGHT_EDGE_TYPE = "straight";
+  
+  private final static String DASHED_EDGE_TYPE = "dashed";
+  
+  private final static String IMPORT_EDGE_TYPE = "import";
+  
+  private final static String USES_EDGE_TYPE = "uses";
+  
+  private final static String AUGMENTS_EDGE_TYPE = "augments";
+  
+  private /* Map<Statement, SModelElement> */Object elementIndex;
+  
+  private List<Procedure0> postProcesses;
+  
+  private SGraph diagramRoot;
+  
+  @Inject
+  private ITraceProvider traceProvider;
+  
+  private IDiagramState state;
+  
+  private /* AbstractModule */Object diagramModule;
+  
+  private Map<String, YangNode> id2modules = CollectionLiterals.<String, YangNode>newHashMap();
+  
+  @Override
+  public SModelRoot generate(final Resource resource, final IDiagramState state, final CancelIndicator cancelIndicator) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nAbstractModule cannot be resolved to a type."
+      + "\nThe method generateDiagram(AbstractModule, CancelIndicator) from the type YangDiagramGenerator refers to the missing type AbstractModule");
+  }
+  
+  public SModelRoot generateDiagram(final /* AbstractModule */Object module, final CancelIndicator cancelIndicator) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangDiagramGenerator.diagramModule refers to the missing type AbstractModule"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement");
+  }
+  
+  /**
+   * @param viewParentElement SModelElement
+   * @param modelParentElement SModelElement
+   * @param statements List<Statement>
+   */
+  protected List<SModelElement> createChildElements(final SModelElement viewParentElement, final SModelElement modelParentElement, final /* List<Statement> */Object statements) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nThe method trace(SModelElement, Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\ntoString cannot be resolved");
+  }
+  
+  protected void trace(final SModelElement element, final /* Statement */Object statement) {
+    if ((element instanceof Traceable)) {
+      this.traceProvider.trace(((Traceable)element), statement);
+    }
+  }
+  
+  protected SModelElement _generateElement(final /* Module */Object moduleStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from Object to SModelElement"
+      + "\nThe method createModule(AbstractModule) from the type YangDiagramGenerator refers to the missing type AbstractModule");
+  }
+  
+  protected SModelElement _generateElement(final /* Submodule */Object submoduleStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from Object to SModelElement"
+      + "\nThe method createModule(AbstractModule) from the type YangDiagramGenerator refers to the missing type AbstractModule");
+  }
+  
+  protected SModelElement _generateElement(final /* Container */Object containerStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createClassElement(SchemaNode, SModelElement, SModelElement, String) from the type YangDiagramGenerator refers to the missing type SchemaNode");
+  }
+  
+  protected SModelElement _generateElement(final /* io.typefox.yang.yang.List */Object listStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createClassElement(SchemaNode, SModelElement, SModelElement, String) from the type YangDiagramGenerator refers to the missing type SchemaNode");
+  }
+  
+  protected SModelElement _generateElement(final /* Key */Object keyStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field node is undefined for the type Object"
+      + "\nThe method or field node is undefined for the type Object"
+      + "\nThere is no context to infer the closure\'s argument types from. Consider typing the arguments or put the closures into a typed context."
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nreferences cannot be resolved"
+      + "\nforEach cannot be resolved"
+      + "\neContainer cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Grouping */Object groupingStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createClassElement(SchemaNode, SModelElement, SModelElement, String) from the type YangDiagramGenerator refers to the missing type SchemaNode");
+  }
+  
+  protected SModelElement _generateElement(final /* Typedef */Object typedefStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createClassElement(SchemaNode, SModelElement, SModelElement, String) from the type YangDiagramGenerator refers to the missing type SchemaNode");
+  }
+  
+  protected SModelElement _generateElement(final /* Identity */Object identityStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field Base is undefined"
+      + "\nThe method createClassElement(SchemaNode, SModelElement, SModelElement, String) from the type YangDiagramGenerator refers to the missing type SchemaNode"
+      + "\nThe method createClassElement(SchemaNode, SModelElement, SModelElement, String) from the type YangDiagramGenerator refers to the missing type SchemaNode"
+      + "\nThe method trace(SModelElement, Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nsubstatements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nhead cannot be resolved"
+      + "\n=== cannot be resolved"
+      + "\nreference cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Augment */Object augmentStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nSchemaNodeIdentifier cannot be resolved to a type."
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createClassElement(Statement, String, String, SModelElement, SModelElement, String, String) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method findClass(Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\npath cannot be resolved"
+      + "\nschemaNode cannot be resolved"
+      + "\nsubstatements cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Choice */Object choiceStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nCase cannot be resolved to a type."
+      + "\nSchemaNode cannot be resolved to a type."
+      + "\nSchemaNode cannot be resolved to a type."
+      + "\nThe method or field name is undefined for the type Object"
+      + "\nThe method or field name is undefined for the type Object"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createTypedElementWithEdge(SModelElement, SModelElement, SchemaNode, String, String) from the type YangDiagramGenerator refers to the missing type SchemaNode"
+      + "\nThe method trace(SModelElement, Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nname cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nforEach cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Case */Object caseStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createTypedElementWithEdge(SModelElement, SModelElement, SchemaNode, String, String) from the type YangDiagramGenerator refers to the missing type SchemaNode"
+      + "\nThe method trace(SModelElement, Statement) from the type YangDiagramGenerator refers to the missing type Statement");
+  }
+  
+  protected SModelElement _generateElement(final /* Uses */Object usesStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method findClass(Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\ngrouping cannot be resolved"
+      + "\nnode cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\ngrouping cannot be resolved"
+      + "\nnode cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Rpc */Object rpcStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method findClass(Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nname cannot be resolved"
+      + "\nsubstatements cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Action */Object actionStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method findClass(Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nname cannot be resolved"
+      + "\nsubstatements cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Input */Object inputStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nThe method createClassElement(Statement, String, String, SModelElement, SModelElement, String, String) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method findClass(Statement) from the type YangDiagramGenerator refers to the missing type Statement");
+  }
+  
+  protected SModelElement _generateElement(final /* Output */Object outputStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangDiagramGenerator.elementIndex refers to the missing type Statement"
+      + "\nThe method createClassElement(Statement, String, String, SModelElement, SModelElement, String, String) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method findClass(Statement) from the type YangDiagramGenerator refers to the missing type Statement");
+  }
+  
+  protected SModelElement _generateElement(final /* Notification */Object notificationStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createClassElement(SchemaNode, SModelElement, SModelElement, String) from the type YangDiagramGenerator refers to the missing type SchemaNode");
+  }
+  
+  protected SModelElement _generateElement(final /* Import */Object importStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from Object to SModelElement"
+      + "\nType mismatch: cannot convert from Object to SModelElement"
+      + "\nType mismatch: cannot convert from Object to SModelElement"
+      + "\nThe method createModule(AbstractModule) from the type YangDiagramGenerator refers to the missing type AbstractModule"
+      + "\nThe method trace(SModelElement, Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nmodule cannot be resolved"
+      + "\nmodule cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Include */Object includeStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nSubmodule cannot be resolved to a type."
+      + "\nType mismatch: cannot convert from Object to SModelElement"
+      + "\nThe method createModule(AbstractModule) from the type YangDiagramGenerator refers to the missing type AbstractModule"
+      + "\neContainer cannot be resolved"
+      + "\nmodule cannot be resolved");
+  }
+  
+  protected SModelElement _generateElement(final /* Leaf */Object leafStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createClassMemberElement(SchemaNode, SModelElement, SModelElement) from the type YangDiagramGenerator refers to the missing type SchemaNode");
+  }
+  
+  protected SModelElement _generateElement(final /* LeafList */Object leafListStmt, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createClassMemberElement(SchemaNode, SModelElement, SModelElement) from the type YangDiagramGenerator refers to the missing type SchemaNode");
+  }
+  
+  protected SModelElement _generateElement(final EObject node, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    return null;
+  }
+  
+  protected SNode initModule(final YangNode moduleElement, final /* AbstractModule */Object moduleStmt) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangDiagramGenerator.diagramModule refers to the missing type AbstractModule"
+      + "\nThe method findTag(Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\n== cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\nsubstatements cannot be resolved");
+  }
+  
+  protected <E extends SModelElement> E configSElement(final Class<E> elementClass, final String idStr, final String typeStr) {
+    try {
+      E _newInstance = elementClass.getConstructor().newInstance();
+      final Procedure1<E> _function = (E it) -> {
+        it.setId(idStr);
+        String _findType = this.findType(it);
+        String _plus = (_findType + ":");
+        String _plus_1 = (_plus + typeStr);
+        it.setType(_plus_1);
+        ArrayList<SModelElement> _arrayList = new ArrayList<SModelElement>();
+        it.setChildren(_arrayList);
+      };
+      return ObjectExtensions.<E>operator_doubleArrow(_newInstance, _function);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  protected YangHeaderNode createClassHeader(final String id, final String tag, final String name) {
+    final YangHeaderNode classHeader = this.<YangHeaderNode>configSElement(YangHeaderNode.class, (id + "-header"), "classHeader");
+    classHeader.setLayout("hbox");
+    final Consumer<LayoutOptions> _function = (LayoutOptions it) -> {
+      it.setPaddingLeft(Double.valueOf(8.0));
+      it.setPaddingRight(Double.valueOf(8.0));
+      it.setPaddingTop(Double.valueOf(8.0));
+      it.setPaddingBottom(Double.valueOf(8.0));
+    };
+    LayoutOptions _layoutOptions = new LayoutOptions(_function);
+    classHeader.setLayoutOptions(_layoutOptions);
+    final Procedure1<YangTag> _function_1 = (YangTag t) -> {
+      String _id = classHeader.getId();
+      String _plus = (_id + "-tag");
+      t.setId(_plus);
+      t.setType("tag");
+      t.setLayout("stack");
+      final Consumer<LayoutOptions> _function_2 = (LayoutOptions it) -> {
+        it.setResizeContainer(Boolean.valueOf(false));
+        it.setHAlign("center");
+        it.setVAlign("center");
+        it.setPaddingLeft(Double.valueOf(0.0));
+        it.setPaddingRight(Double.valueOf(0.0));
+        it.setPaddingTop(Double.valueOf(0.0));
+        it.setPaddingBottom(Double.valueOf(0.0));
+      };
+      LayoutOptions _layoutOptions_1 = new LayoutOptions(_function_2);
+      t.setLayoutOptions(_layoutOptions_1);
+      final Consumer<SLabel> _function_3 = (SLabel l) -> {
+        l.setType("label:tag");
+        String _id_1 = classHeader.getId();
+        String _plus_1 = (_id_1 + "-tag-text");
+        l.setId(_plus_1);
+        l.setText(tag);
+      };
+      SLabel _sLabel = new SLabel(_function_3);
+      t.setChildren(Collections.<SModelElement>unmodifiableList(CollectionLiterals.<SModelElement>newArrayList(_sLabel)));
+    };
+    YangTag _yangTag = new YangTag(_function_1);
+    final Consumer<SLabel> _function_2 = (SLabel l) -> {
+      l.setType("label:classHeader");
+      String _id = classHeader.getId();
+      String _plus = (_id + "-header-label");
+      l.setId(_plus);
+      l.setText(name);
+    };
+    SLabel _sLabel = new SLabel(_function_2);
+    classHeader.setChildren(Collections.<SModelElement>unmodifiableList(CollectionLiterals.<SModelElement>newArrayList(_yangTag, _sLabel)));
+    return classHeader;
+  }
+  
+  protected Object createModule(final /* AbstractModule */Object moduleStmt) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field Prefix is undefined"
+      + "\nType mismatch: cannot convert from Object to YangNode"
+      + "\nType mismatch: cannot convert from Object to YangNode"
+      + "\nThe method createModule(AbstractModule) from the type YangDiagramGenerator refers to the missing type AbstractModule"
+      + "\nThe method initModule(YangNode, AbstractModule) from the type YangDiagramGenerator refers to the missing type AbstractModule"
+      + "\nsubstatements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nhead cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\n!== cannot be resolved"
+      + "\nprefix cannot be resolved");
+  }
+  
+  protected YangNode createModule(final String name) {
+    final YangNode moduleElement = this.<YangNode>configSElement(YangNode.class, name, "module");
+    moduleElement.setLayout("vbox");
+    final Consumer<LayoutOptions> _function = (LayoutOptions it) -> {
+      it.setPaddingTop(Double.valueOf(5.0));
+      it.setPaddingBottom(Double.valueOf(5.0));
+      it.setPaddingLeft(Double.valueOf(5.0));
+      it.setPaddingRight(Double.valueOf(5.0));
+    };
+    LayoutOptions _layoutOptions = new LayoutOptions(_function);
+    moduleElement.setLayoutOptions(_layoutOptions);
+    String _id = moduleElement.getId();
+    String _plus = (_id + "-heading");
+    final SCompartment moduleHeadingCompartment = this.<SCompartment>configSElement(SCompartment.class, _plus, "comp");
+    moduleHeadingCompartment.setLayout("hbox");
+    moduleElement.getChildren().add(moduleHeadingCompartment);
+    String _id_1 = moduleElement.getId();
+    String _plus_1 = (_id_1 + "-label");
+    final SLabel moduleLabel = this.<SLabel>configSElement(SLabel.class, _plus_1, "heading");
+    moduleLabel.setText(name);
+    moduleHeadingCompartment.getChildren().add(moduleLabel);
+    String _id_2 = moduleElement.getId();
+    String _plus_2 = (_id_2 + "-expand");
+    final SButton expandButton = this.<SButton>configSElement(SButton.class, _plus_2, "expand");
+    moduleHeadingCompartment.getChildren().add(expandButton);
+    return moduleElement;
+  }
+  
+  protected SModelElement createClassMemberElement(final /* SchemaNode */Object statement, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nType cannot be resolved to a type."
+      + "\nLeafList cannot be resolved to a type."
+      + "\nThe method or field Type is undefined"
+      + "\nThe method trace(SModelElement, Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nname cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nhead cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\ntypeRef cannot be resolved"
+      + "\nbuiltin cannot be resolved");
+  }
+  
+  protected SModelElement createClassElement(final /* SchemaNode */Object statement, final SModelElement viewParentElement, final SModelElement modelParentElement, final String edgeType) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method findClass(Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createClassElement(Statement, String, String, SModelElement, SModelElement, String, String) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nname cannot be resolved"
+      + "\nname cannot be resolved");
+  }
+  
+  protected SModelElement createClassElement(final /* Statement */Object statement, final String label, final String id, final SModelElement viewParentElement, final SModelElement modelParentElement, final String edgeType, final String cssClass) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method findTag(Statement) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nsubstatements cannot be resolved"
+      + "\nsubstatements cannot be resolved");
+  }
+  
+  protected SNode createTypedElementWithEdge(final SModelElement modelParentElement, final SModelElement viewParentElement, final /* SchemaNode */Object stmt, final String type, final String edgeType) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nThe method createChildElements(SModelElement, SModelElement, List<Statement>) from the type YangDiagramGenerator refers to the missing type Statement"
+      + "\nname cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nsubstatements cannot be resolved");
+  }
+  
+  protected SCompartment createClassMemberCompartment(final String id) {
+    final SCompartment compartment = this.<SCompartment>configSElement(SCompartment.class, (id + "-compartment"), "comp");
+    compartment.setLayout("vbox");
+    final Consumer<LayoutOptions> _function = (LayoutOptions it) -> {
+      it.setPaddingFactor(Double.valueOf(1.0));
+      it.setPaddingLeft(Double.valueOf(0.0));
+      it.setPaddingRight(Double.valueOf(0.0));
+      it.setPaddingTop(Double.valueOf(0.0));
+      it.setPaddingBottom(Double.valueOf(0.0));
+    };
+    LayoutOptions _layoutOptions = new LayoutOptions(_function);
+    compartment.setLayoutOptions(_layoutOptions);
+    return compartment;
+  }
+  
+  protected YangNode createNodeWithHeadingLabel(final String id, final String name, final String type) {
+    final YangNode classElement = this.<YangNode>configSElement(YangNode.class, ((((id + "-") + name) + "-") + type), type);
+    classElement.setLayout("vbox");
+    String _id = classElement.getId();
+    String _plus = (_id + "-heading");
+    final SCompartment headingContainer = this.<SCompartment>configSElement(SCompartment.class, _plus, "comp");
+    headingContainer.setLayout("vbox");
+    final Consumer<LayoutOptions> _function = (LayoutOptions it) -> {
+      it.setPaddingFactor(Double.valueOf(1.0));
+      it.setPaddingLeft(Double.valueOf(10.0));
+      it.setPaddingRight(Double.valueOf(10.0));
+      it.setPaddingTop(Double.valueOf(0.0));
+      it.setPaddingBottom(Double.valueOf(0.0));
+    };
+    LayoutOptions _layoutOptions = new LayoutOptions(_function);
+    headingContainer.setLayoutOptions(_layoutOptions);
+    String _id_1 = headingContainer.getId();
+    String _plus_1 = (_id_1 + "-label");
+    final SLabel heading = this.<SLabel>configSElement(SLabel.class, _plus_1, "heading");
+    heading.setText(name);
+    headingContainer.getChildren().add(heading);
+    classElement.getChildren().add(headingContainer);
+    return classElement;
+  }
+  
+  protected SEdge createEdge(final SModelElement fromElement, final SModelElement toElement, final String edgeType) {
+    String _id = fromElement.getId();
+    String _plus = (_id + "2");
+    String _id_1 = toElement.getId();
+    String _plus_1 = (_plus + _id_1);
+    String _plus_2 = (_plus_1 + "-edge");
+    final SEdge edge = this.<SEdge>configSElement(SEdge.class, _plus_2, edgeType);
+    edge.setSourceId(fromElement.getId());
+    edge.setTargetId(toElement.getId());
+    return edge;
+  }
+  
+  protected String findClass(final /* Statement */Object statement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nTypedefImpl cannot be resolved to a type."
+      + "\nChoiceImpl cannot be resolved to a type."
+      + "\nCaseImpl cannot be resolved to a type."
+      + "\nUsesImpl cannot be resolved to a type."
+      + "\nAugmentImpl cannot be resolved to a type."
+      + "\nListImpl cannot be resolved to a type."
+      + "\nContainerImpl cannot be resolved to a type."
+      + "\nModuleImpl cannot be resolved to a type."
+      + "\nSubmoduleImpl cannot be resolved to a type."
+      + "\nGroupingImpl cannot be resolved to a type."
+      + "\nIdentityImpl cannot be resolved to a type."
+      + "\nRpcImpl cannot be resolved to a type."
+      + "\nInputImpl cannot be resolved to a type."
+      + "\nOutputImpl cannot be resolved to a type."
+      + "\nNotificationImpl cannot be resolved to a type."
+      + "\nActionImpl cannot be resolved to a type."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition.");
+  }
+  
+  protected String findTag(final /* Statement */Object statement) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nAugmentImpl cannot be resolved to a type."
+      + "\nListImpl cannot be resolved to a type."
+      + "\nContainerImpl cannot be resolved to a type."
+      + "\nModuleImpl cannot be resolved to a type."
+      + "\nSubmoduleImpl cannot be resolved to a type."
+      + "\nGroupingImpl cannot be resolved to a type."
+      + "\nTypedefImpl cannot be resolved to a type."
+      + "\nIdentityImpl cannot be resolved to a type."
+      + "\nUsesImpl cannot be resolved to a type."
+      + "\nNotificationImpl cannot be resolved to a type."
+      + "\nInputImpl cannot be resolved to a type."
+      + "\nOutputImpl cannot be resolved to a type."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition.");
+  }
+  
+  protected String findType(final SModelElement element) {
+    String _switchResult = null;
+    boolean _matched = false;
+    if (element instanceof SNode) {
+      _matched=true;
+      _switchResult = "node";
+    }
+    if (!_matched) {
+      if (element instanceof YangLabel) {
+        _matched=true;
+        _switchResult = "ylabel";
+      }
+    }
+    if (!_matched) {
+      if (element instanceof SLabel) {
+        _matched=true;
+        _switchResult = "label";
+      }
+    }
+    if (!_matched) {
+      if (element instanceof SCompartment) {
+        _matched=true;
+        _switchResult = "comp";
+      }
+    }
+    if (!_matched) {
+      if (element instanceof SEdge) {
+        _matched=true;
+        _switchResult = "edge";
+      }
+    }
+    if (!_matched) {
+      if (element instanceof SButton) {
+        _matched=true;
+        _switchResult = "button";
+      }
+    }
+    if (!_matched) {
+      _switchResult = "dontknow";
+    }
+    return _switchResult;
+  }
+  
+  protected void postProcessing() {
+    final Consumer<Procedure0> _function = (Procedure0 process) -> {
+      process.apply();
+    };
+    this.postProcesses.forEach(_function);
+  }
+  
+  protected SModelElement generateElement(final EObject node, final SModelElement viewParentElement, final SModelElement modelParentElement) {
+    if (node != null) {
+      return _generateElement(node, viewParentElement, modelParentElement);
+    } else if (node != null) {
+      return _generateElement(node, viewParentElement, modelParentElement);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(node, viewParentElement, modelParentElement).toString());
+    }
+  }
+}

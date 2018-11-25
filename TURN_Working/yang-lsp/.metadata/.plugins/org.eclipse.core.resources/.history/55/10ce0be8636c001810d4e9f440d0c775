@@ -1,0 +1,326 @@
+/*
+ * Copyright (C) 2017 TypeFox and others.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ */
+package mcgill.xtext.turn.diagram
+
+import com.google.inject.Inject
+import io.typefox.sprotty.api.IDiagramState
+import io.typefox.sprotty.api.LayoutOptions
+import io.typefox.sprotty.api.SButton
+import io.typefox.sprotty.api.SCompartment
+import io.typefox.sprotty.api.SEdge
+import io.typefox.sprotty.api.SGraph
+import io.typefox.sprotty.api.SLabel
+import io.typefox.sprotty.api.SModelElement
+import io.typefox.sprotty.api.SModelRoot
+import io.typefox.sprotty.api.SNode
+import io.typefox.sprotty.server.xtext.IDiagramGenerator
+import io.typefox.sprotty.server.xtext.tracing.ITraceProvider
+import io.typefox.sprotty.server.xtext.tracing.Traceable
+
+import org.xtext.example.mydsl.tURN.URNspec
+import org.xtext.example.mydsl.tURN.URNmodelElement
+import org.xtext.example.mydsl.tURN.Contribution
+import org.xtext.example.mydsl.tURN.UCMmap
+
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
+import java.util.Map
+import org.apache.log4j.Logger
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.xtext.util.CancelIndicator
+import org.xtext.example.mydsl.tURN.Actor
+
+class TURNDiagramGenerator implements IDiagramGenerator {
+	static val LOG = Logger.getLogger(TURNDiagramGenerator)
+
+	static val STRAIGHT_EDGE_TYPE = 'straight'
+
+	
+	var Map<Actor, SModelElement> elementIndex
+	var List<()=>void> postProcesses
+
+	var SGraph diagramRoot
+	
+	@Inject ITraceProvider traceProvider
+	
+	IDiagramState state
+	
+	URNspec diagramModule
+	
+	URNspec actorModules
+	Map<String, TURNNode> id2modules = newHashMap
+	
+
+	
+	override generate(Resource resource, IDiagramState state, CancelIndicator cancelIndicator) {
+		val content = resource.contents.head
+		this.state = state
+		if (content instanceof URNspec) {
+			LOG.info("Generating diagram for input Rijul: '" + resource.URI.lastSegment + "'")
+			return generateDiagram(content, cancelIndicator)
+		}
+		return null
+	}
+
+	def SModelRoot generateDiagram(URNspec module, CancelIndicator cancelIndicator) {
+		diagramModule = module
+		LOG.info("reached generate Diagram '" + "module" + module + "cancel" + cancelIndicator)
+		elementIndex = new HashMap
+		postProcesses = new ArrayList
+		diagramRoot = new SGraph => [
+			type = 'graph'
+			id = 'turn'
+			children = new ArrayList<SModelElement>
+			layoutOptions = new LayoutOptions [
+				HAlign = 'left'
+				HGap = 10.0
+				VGap = 0.0
+				paddingLeft = 0.0
+				paddingRight = 0.0
+				paddingTop = 0.0
+				paddingBottom = 0.0
+			]
+		]
+
+		val rootChildren = createChildElements(diagramRoot, diagramRoot, module.actors)		
+		diagramRoot.children.addAll(rootChildren)		
+		LOG.info("reached generate Diagram '" + "module actors" + module)
+		postProcessing()
+		LOG.info("reached generate Diagram root" + diagramRoot)
+		return diagramRoot
+	}
+
+	/**
+	 * @param viewParentElement SModelElement
+	 * @param modelParentElement SModelElement
+	 * @param actors List<actor>
+	 */
+	protected def List<SModelElement> createChildElements(SModelElement viewParentElement,
+		SModelElement modelParentElement, List<Actor> actors) {
+		val rootChildren = new ArrayList()
+		for (actor : actors) {
+			var SModelElement element = null
+			element = generateElement(actor, viewParentElement, modelParentElement)
+			LOG.info("CREATED ELEMENT FOR generate element:" + element + "parent element" + viewParentElement  + "modelParentElelemnt" + modelParentElement)
+			if (element !== null) {
+				val eid = element.id
+				LOG.info("CREATED ELEMENT FOR statement:" + actor.toString + " WITH ID " + eid)
+				if (elementIndex.filter[k, v|v.id == eid].size > 0) {
+					LOG.info(eid + " ALREADY EXISTS!!!")
+				}
+				elementIndex.put(actor, element)
+				if(!rootChildren.contains(element)) {
+					rootChildren.add(element)
+					element.trace(actor)
+				}
+			}
+		}
+		return rootChildren
+	}
+	
+
+	
+	
+	protected def void trace(SModelElement element, Actor actor) {
+		if (element instanceof Traceable) 
+			traceProvider.trace(element, actor)
+	}
+
+
+
+	protected def dispatch SModelElement generateElement(EObject node, SModelElement viewParentElement,
+		SModelElement modelParentElement) {
+		return null
+	}
+	
+		protected def dispatch SModelElement generateElement(Actor caseStmt, SModelElement viewParentElement,
+		SModelElement modelParentElement) {
+		val caseNode = createTypedElementWithEdge(modelParentElement, viewParentElement, caseStmt, 'actor',
+			STRAIGHT_EDGE_TYPE)
+		if (caseNode !== null) {
+			caseNode.layoutOptions = new LayoutOptions [
+				HAlign = 'center'
+				paddingBottom = 10.0
+				paddingTop = 10.0
+				paddingLeft = 8.0
+				paddingRight = 8.0
+			]
+			caseNode.trace(caseStmt)
+		}
+		return caseNode
+	}
+	
+		protected def SNode createTypedElementWithEdge(SModelElement modelParentElement, SModelElement viewParentElement,
+		Actor stmt, String type, String edgeType) {
+			LOG.info("createTypedElementWithEdge :" + "actor" + stmt + "modelParentElement" + modelParentElement)
+		if (modelParentElement instanceof SNode) {
+
+			//val name = stmt
+
+			val classElement = createNodeWithHeadingLabel(viewParentElement.id, stmt.name, type)
+
+			// add class members to compartment element
+			val compartment = createClassMemberCompartment(classElement.id)
+			compartment.children.addAll(createChildElements(classElement, compartment, actorModules.actors ))
+			classElement.children.add(compartment)
+
+			modelParentElement.children.addAll(
+				createChildElements(classElement, modelParentElement, actorModules.actors))
+
+		val SEdge edge = createEdge(viewParentElement, classElement, edgeType)
+			modelParentElement.children.add(edge)
+LOG.info("classElement:" + classElement)
+			return classElement
+			
+			
+		}
+	}
+	
+	protected def SEdge createEdge(SModelElement fromElement, SModelElement toElement, String edgeType) {
+		val SEdge edge = configSElement(SEdge, fromElement.id + '2' + toElement.id + 'importance', edgeType)
+		edge.sourceId = fromElement.id
+		edge.targetId = toElement.id
+		return edge
+	}
+	
+		protected def TURNNode createNodeWithHeadingLabel(String id, String name, String type) {
+		val classElement = configSElement(TURNNode, id + '-' + name + '-' + type, type)
+		classElement.layout = 'vbox'
+
+		val headingContainer = configSElement(SCompartment, classElement.id + '-heading', 'importance')
+		headingContainer.layout = 'vbox'
+		headingContainer.layoutOptions = new LayoutOptions [
+			paddingFactor = 1.0
+			paddingLeft = 10.0
+			paddingRight = 10.0
+			paddingTop = 0.0
+			paddingBottom = 0.0
+		]
+
+		val heading = configSElement(SLabel, headingContainer.id + '-label', 'description')
+		heading.text = name
+		headingContainer.children.add(heading)
+		classElement.children.add(headingContainer)
+		return classElement
+	}
+	
+		protected def SCompartment createClassMemberCompartment(String id) {
+		val compartment = configSElement(SCompartment, id + '-compartment', 'comp')
+		compartment.layout = 'vbox'
+		compartment.layoutOptions = new LayoutOptions [
+			paddingFactor = 1.0
+			paddingLeft = 0.0
+			paddingRight = 0.0
+			paddingTop = 0.0
+			paddingBottom = 0.0
+		]
+		return compartment
+	}
+
+
+protected def createModule(URNspec moduleStmt) {
+		val prefix = moduleStmt.actors.head
+		val id = moduleStmt.name + if(prefix !== null) ':' + prefix else ''
+		val existingModule = id2modules.get(id)
+		if(existingModule !== null)
+			return existingModule
+		val moduleElement = createModule(id)
+		id2modules.put(id, moduleElement)
+		initModule(moduleElement, moduleStmt)
+		return moduleElement
+	}
+	
+	
+
+	
+
+
+
+	protected def <E extends SModelElement> E configSElement(Class<E> elementClass, String idStr, String typeStr) {
+		elementClass.constructor.newInstance => [
+			id = idStr
+			type = findType(it) + ':' + typeStr
+			children = new ArrayList<SModelElement>
+		]
+	}
+
+
+
+
+	protected def TURNNode createModule(String name) {
+		val moduleElement = configSElement(TURNNode, name, 'urnModel')
+		moduleElement.layout = 'vbox'
+		moduleElement.layoutOptions = new LayoutOptions [
+			paddingTop = 5.0
+			paddingBottom = 5.0
+			paddingLeft = 5.0
+			paddingRight = 5.0
+		]
+
+		val SCompartment moduleHeadingCompartment = configSElement(SCompartment, moduleElement.id + '-heading', 'comp')
+		moduleHeadingCompartment.layout = 'hbox'
+		moduleElement.children.add(moduleHeadingCompartment)
+		val SLabel moduleLabel = configSElement(SLabel, moduleElement.id + '-label', 'description')
+		moduleLabel.text = name
+		moduleHeadingCompartment.children.add(moduleLabel)
+		val expandButton = configSElement(SButton, moduleElement.id + '-expand', 'expand')
+		moduleHeadingCompartment.children.add(expandButton) 
+		return moduleElement
+	}
+
+protected def SNode initModule(TURNNode moduleElement, URNspec moduleStmt) {
+		if ((state.currentModel.type == 'NONE' && moduleStmt == diagramModule) 
+			|| state.expandedElements.contains(moduleElement.id)) {
+			// Module node
+			val moduleNode = configSElement(TURNNode, moduleElement.id + '-node', 'class')
+			moduleNode.layout = 'vbox'
+			moduleNode.layoutOptions = new LayoutOptions [
+				paddingLeft = 0.0
+				paddingRight = 0.0
+				paddingTop = 0.0
+				paddingBottom = 0.0
+			]
+			moduleNode.cssClass = 'moduleNode'
+			
+	
+		//	moduleNode.children.add(createClassHeader(moduleNode.id, findTag(moduleStmt), moduleStmt.name))
+	
+			moduleElement.children.add(moduleNode)
+			moduleElement.children.addAll(createChildElements(moduleNode, moduleElement, moduleStmt.actors))
+			moduleElement.expanded = true		
+			state.expandedElements.add(moduleElement.id)	
+		} else {
+			moduleElement.expanded = false
+		}
+		return moduleElement
+	}
+
+
+
+
+
+	protected def String findType(SModelElement element) {
+		switch element {
+			SNode: 'node'
+			TURNLabel: 'ylabel'
+			SLabel: 'label'
+			SCompartment: 'comp'
+			SEdge: 'edge'
+			SButton: 'button'
+			default: 'dontknow'
+		}
+	}
+
+
+	
+	protected def void postProcessing() {
+		postProcesses.forEach[process|process.apply]
+	}
+
+}

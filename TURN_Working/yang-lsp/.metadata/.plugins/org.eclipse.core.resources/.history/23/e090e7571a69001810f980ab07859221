@@ -1,0 +1,347 @@
+package io.typefox.yang.ide.completion;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterators;
+import com.google.inject.Inject;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.AbstractElement;
+import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.Keyword;
+import org.eclipse.xtext.RuleCall;
+import org.eclipse.xtext.formatting.IWhitespaceInformationProvider;
+import org.eclipse.xtext.ide.editor.contentassist.ContentAssistContext;
+import org.eclipse.xtext.ide.editor.contentassist.IIdeContentProposalAcceptor;
+import org.eclipse.xtext.ide.editor.contentassist.IdeContentProposalProvider;
+import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import org.eclipse.xtext.xtext.CurrentTypeFinder;
+
+@SuppressWarnings("all")
+public class YangContentProposalProvider extends IdeContentProposalProvider {
+  private final static Set<String> IGNORED_KEYWORDS = Collections.<String>unmodifiableSet(CollectionLiterals.<String>newHashSet("/", "{", ";", "}", "+", "-", "*", "/", ">=", "<=", ">", "<", "=", "!=", ":", "[", "]", "|", "or", "and", "div", "mod", "$", "(", "@", "processing-instruction"));
+  
+  @Inject
+  @Extension
+  private CurrentTypeFinder _currentTypeFinder;
+  
+  @Inject
+  @Extension
+  private /* DocumentationProvider */Object _documentationProvider;
+  
+  @Inject
+  private /* ScopeContextProvider */Object scopeContextProvider;
+  
+  @Inject
+  private /* SubstatementRuleProvider */Object ruleProvider;
+  
+  @Inject
+  private /* YangGrammarAccess */Object grammarAccess;
+  
+  @Inject
+  private IWhitespaceInformationProvider whitespaceInformation;
+  
+  @Override
+  protected void _createProposals(final AbstractElement element, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+  }
+  
+  @Override
+  protected void _createProposals(final Assignment assignment, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field XpathFunctionLibrary is undefined"
+      + "\nThe method or field name is undefined"
+      + "\nThe method or field name is undefined"
+      + "\nThe method or field name is undefined"
+      + "\nThe field YangContentProposalProvider.grammarAccess refers to the missing type YangGrammarAccess"
+      + "\nxpathPrimaryExprAccess cannot be resolved"
+      + "\nnameAssignment_4_1 cannot be resolved"
+      + "\nFUNCTIONS cannot be resolved"
+      + "\nvalues cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\ntoLowerCase cannot be resolved"
+      + "\nstartsWith cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\nparamTypes cannot be resolved"
+      + "\njoin cannot be resolved"
+      + "\ntoLowerCase cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\nparamTypes cannot be resolved"
+      + "\njoin cannot be resolved"
+      + "\ntoLowerCase cannot be resolved"
+      + "\ndocumentation cannot be resolved");
+  }
+  
+  @Override
+  protected void _createProposals(final RuleCall ruleCall, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    String _name = ruleCall.getRule().getName();
+    boolean _equals = Objects.equal(_name, "BUILTIN_TYPE");
+    if (_equals) {
+      Iterable<Keyword> _iterable = IteratorExtensions.<Keyword>toIterable(Iterators.<Keyword>filter(EcoreUtil.<Object>getAllContents(ruleCall.getRule(), false), Keyword.class));
+      for (final Keyword kw : _iterable) {
+        this.createProposals(kw, context, acceptor);
+      }
+    }
+  }
+  
+  @Override
+  protected void _createProposals(final Keyword keyword, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nAbstractModule cannot be resolved to a type."
+      + "\nModule cannot be resolved to a type."
+      + "\nThe method or field AbstractModule is undefined"
+      + "\nThe method or field Revision is undefined"
+      + "\nThe method or field revision is undefined"
+      + "\nThe method or field Prefix is undefined"
+      + "\nThe field YangContentProposalProvider.grammarAccess refers to the missing type YangGrammarAccess"
+      + "\nThe field YangContentProposalProvider.grammarAccess refers to the missing type YangGrammarAccess"
+      + "\nThe field YangContentProposalProvider.grammarAccess refers to the missing type YangGrammarAccess"
+      + "\nThe field YangContentProposalProvider.scopeContextProvider refers to the missing type ScopeContextProvider"
+      + "\nxpathExpressionAccess cannot be resolved"
+      + "\nlessThanSignLessThanSignLessThanSignLessThanSignKeyword_0_1 cannot be resolved"
+      + "\nxpathExpressionAccess cannot be resolved"
+      + "\ngreaterThanSignGreaterThanSignGreaterThanSignGreaterThanSignKeyword_0_3 cannot be resolved"
+      + "\nimportAccess cannot be resolved"
+      + "\nimportKeyword_0 cannot be resolved"
+      + "\ngetScopeContext cannot be resolved"
+      + "\nmoduleScope cannot be resolved"
+      + "\nallElements cannot be resolved"
+      + "\nEObjectOrProxy cannot be resolved"
+      + "\n!== cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nsortBy cannot be resolved"
+      + "\nreverseView cannot be resolved"
+      + "\nhead cannot be resolved"
+      + "\nqualifiedName cannot be resolved"
+      + "\nqualifiedName cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nhead cannot be resolved"
+      + "\nprefix cannot be resolved"
+      + "\n!== cannot be resolved"
+      + "\nrevision cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\ndocumentation cannot be resolved");
+  }
+  
+  @Override
+  protected void _createProposals(final CrossReference reference, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field YangPackage is undefined"
+      + "\nThe method or field YangPackage is undefined"
+      + "\nThe method or field YangPackage is undefined"
+      + "\nThe method or field YangPackage is undefined"
+      + "\nThe method or field YangPackage is undefined"
+      + "\nLiterals cannot be resolved"
+      + "\nSCHEMA_NODE_IDENTIFIER__SCHEMA_NODE cannot be resolved"
+      + "\n=== cannot be resolved"
+      + "\nLiterals cannot be resolved"
+      + "\nREVISION_DATE__DATE cannot be resolved"
+      + "\n=== cannot be resolved"
+      + "\nLiterals cannot be resolved"
+      + "\nXPATH_NAME_TEST__REF cannot be resolved"
+      + "\n=== cannot be resolved"
+      + "\n|| cannot be resolved"
+      + "\nLiterals cannot be resolved"
+      + "\nCURRENT_REF__REF cannot be resolved"
+      + "\n=== cannot be resolved"
+      + "\n|| cannot be resolved"
+      + "\nLiterals cannot be resolved"
+      + "\nPARENT_REF__REF cannot be resolved"
+      + "\n=== cannot be resolved");
+  }
+  
+  @Inject
+  private /* XpathResolver */Object xpathResolver;
+  
+  public List<IEObjectDescription> findPathes(final EObject obj, final ContentAssistContext context) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nXpathStep cannot be resolved to a type."
+      + "\nAbsolutePath cannot be resolved to a type."
+      + "\nXpathLocation cannot be resolved to a type."
+      + "\nXpathExpression cannot be resolved to a type."
+      + "\nNodeSetType cannot be resolved to a type."
+      + "\nXpathLocation cannot be resolved to a type."
+      + "\nAbsolutePath cannot be resolved to a type."
+      + "\nSchemaNode cannot be resolved to a type."
+      + "\nThe method or field Linker is undefined"
+      + "\nThe method or field target is undefined for the type EObject"
+      + "\nThe method or field target is undefined for the type EObject"
+      + "\nThe method or field Linker is undefined"
+      + "\nThe method or field Linker is undefined"
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nUnreachable code: The case can never match. It is already handled by a previous condition."
+      + "\nThe field YangContentProposalProvider.xpathResolver refers to the missing type XpathResolver"
+      + "\nUnreachable code: The if condition can never match. It is already handled by a previous condition."
+      + "\nThe field YangContentProposalProvider.scopeContextProvider refers to the missing type ScopeContextProvider"
+      + "\nROOT cannot be resolved"
+      + "\ngetType cannot be resolved"
+      + "\nnodes cannot be resolved"
+      + "\nROOT cannot be resolved"
+      + "\nROOT cannot be resolved"
+      + "\nfindSchemaNodeName cannot be resolved");
+  }
+  
+  public /* XpathResolver.Axis */Object findAxis(final ContentAssistContext context) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nXpathLocation cannot be resolved to a type."
+      + "\nAbsolutePath cannot be resolved to a type."
+      + "\nXpathStep cannot be resolved to a type."
+      + "\nThe method or field isIsDescendants is undefined for the type EObject"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field isIsDescendants is undefined for the type EObject"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field axis is undefined for the type EObject"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nThe method or field Axis is undefined"
+      + "\nDESCENDANTS cannot be resolved"
+      + "\nDESCENDANTS cannot be resolved"
+      + "\nANCESTOR cannot be resolved"
+      + "\nANCESTOR_OR_SELF cannot be resolved"
+      + "\nDESCENDANTS cannot be resolved"
+      + "\nDESCENDANTS_OR_SELF cannot be resolved"
+      + "\nANCESTOR cannot be resolved"
+      + "\nDESCENDANTS cannot be resolved"
+      + "\nSIBLINGS cannot be resolved"
+      + "\nSIBLINGS cannot be resolved"
+      + "\nCHILDREN cannot be resolved"
+      + "\nCHILDREN cannot be resolved");
+  }
+  
+  public void computeXpathStep(final CrossReference reference, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method getDocumentation(Object) is undefined"
+      + "\nThe method findAxis(ContentAssistContext) from the type YangContentProposalProvider refers to the missing type Axis"
+      + "\nThe field YangContentProposalProvider.scopeContextProvider refers to the missing type ScopeContextProvider"
+      + "\nThe field YangContentProposalProvider.xpathResolver refers to the missing type XpathResolver"
+      + "\nfindScopeContext cannot be resolved"
+      + "\nfindNodes cannot be resolved"
+      + "\nschemaNodeScope cannot be resolved"
+      + "\nqualifiedName cannot be resolved"
+      + "\nlastSegment cannot be resolved"
+      + "\nEObjectOrProxy cannot be resolved");
+  }
+  
+  public void computeRevisionProposals(final CrossReference reference, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field AbstractImport is undefined"
+      + "\nThe method or field module is undefined for the type EObject"
+      + "\nThe method or field module is undefined for the type EObject"
+      + "\nThe method or field module is undefined for the type EObject"
+      + "\nThe method or field Revision is undefined"
+      + "\nThe method or field Description is undefined"
+      + "\n!== cannot be resolved"
+      + "\neIsProxy cannot be resolved"
+      + "\n! cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nrevision cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nhead cannot be resolved"
+      + "\ndescription cannot be resolved");
+  }
+  
+  private QualifiedName computeNodeSchemaPrefix(final EObject object, final IScope nodeScope) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nSchemaNodeIdentifier cannot be resolved to a type."
+      + "\nSchemaNode cannot be resolved to a type."
+      + "\nThe method or field target is undefined for the type EObject"
+      + "\nThe method or field target is undefined for the type EObject"
+      + "\nThe method or field target is undefined for the type EObject"
+      + "\nUnreachable code: The if condition can never match. It is already handled by a previous condition."
+      + "\n=== cannot be resolved"
+      + "\n|| cannot be resolved"
+      + "\nschemaNode cannot be resolved"
+      + "\neIsProxy cannot be resolved"
+      + "\nschemaNode cannot be resolved");
+  }
+  
+  public void computeIdentifierRefProposals(final CrossReference reference, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nSchemaNodeIdentifier cannot be resolved to a type."
+      + "\nThe field YangContentProposalProvider.scopeContextProvider refers to the missing type ScopeContextProvider"
+      + "\nThe method computeSchemaNodePathProposals(QualifiedName, MapScope, IScopeContext, ContentAssistContext, IIdeContentProposalAcceptor) from the type YangContentProposalProvider refers to the missing type MapScope"
+      + "\nThe method computeSchemaNodePathProposals(QualifiedName, MapScope, IScopeContext, ContentAssistContext, IIdeContentProposalAcceptor) from the type YangContentProposalProvider refers to the missing type MapScope"
+      + "\nfindScopeContext cannot be resolved"
+      + "\nschemaNodeScope cannot be resolved");
+  }
+  
+  private void computeSchemaNodePathProposals(final QualifiedName prefix, final /* MapScope */Object nodeScope, final /* IScopeContext */Object scopeCtx, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field name is undefined"
+      + "\nThe method or field value is undefined"
+      + "\nallElements cannot be resolved"
+      + "\nfilter cannot be resolved"
+      + "\nstartsWith cannot be resolved"
+      + "\nname cannot be resolved"
+      + "\nskipFirst cannot be resolved"
+      + "\nsegmentCount cannot be resolved"
+      + "\ngetSegment cannot be resolved"
+      + "\n!= cannot be resolved"
+      + "\nmoduleName cannot be resolved"
+      + "\ngetSegment cannot be resolved"
+      + "\nimportedModules cannot be resolved"
+      + "\nentrySet cannot be resolved"
+      + "\nfindFirst cannot be resolved"
+      + "\nmoduleName cannot be resolved"
+      + "\n== cannot be resolved"
+      + "\nkey cannot be resolved"
+      + "\ngetSegment cannot be resolved"
+      + "\nsegmentCount cannot be resolved"
+      + "\nEObjectOrProxy cannot be resolved"
+      + "\ndocumentation cannot be resolved");
+  }
+  
+  @Override
+  protected boolean filterKeyword(final Keyword keyword, final ContentAssistContext context) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nStatement cannot be resolved to a type."
+      + "\nThe method or field EClassForName is undefined for the type String"
+      + "\nThe method isStatement(Keyword) from the type YangContentProposalProvider refers to the missing type Object"
+      + "\nThe field YangContentProposalProvider.ruleProvider refers to the missing type SubstatementRuleProvider"
+      + "\nget cannot be resolved"
+      + "\n!== cannot be resolved"
+      + "\nsubstatements cannot be resolved"
+      + "\nindexOf cannot be resolved"
+      + "\n!== cannot be resolved"
+      + "\n&& cannot be resolved"
+      + "\ncanInsert cannot be resolved");
+  }
+  
+  private Object isStatement(final Keyword it) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangContentProposalProvider.grammarAccess refers to the missing type YangGrammarAccess"
+      + "\nSTATEMENT_KEYWORDAccess cannot be resolved"
+      + "\nfindKeywords cannot be resolved"
+      + "\nlength cannot be resolved"
+      + "\n> cannot be resolved");
+  }
+  
+  @Override
+  protected Predicate<IEObjectDescription> getCrossrefFilter(final CrossReference reference, final ContentAssistContext context) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangContentProposalProvider.scopeContextProvider refers to the missing type ScopeContextProvider"
+      + "\nfindScopeContext cannot be resolved"
+      + "\nlocalPrefix cannot be resolved");
+  }
+}

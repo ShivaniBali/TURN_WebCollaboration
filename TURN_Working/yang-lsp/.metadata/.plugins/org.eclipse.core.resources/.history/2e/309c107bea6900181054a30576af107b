@@ -1,0 +1,74 @@
+package mcgill.xtext.turn.utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+
+/**
+ * Utilities for dates in YANG.
+ * 
+ * @author akos.kitta
+ */
+@SuppressWarnings("all")
+public abstract class YangDateUtils {
+  private static final class DateFormatThreadLocal extends ThreadLocal<SimpleDateFormat> {
+    private final SimpleDateFormat delegate;
+    
+    public DateFormatThreadLocal(final String pattern) {
+      SimpleDateFormat _simpleDateFormat = new SimpleDateFormat(pattern);
+      this.delegate = _simpleDateFormat;
+      this.delegate.setLenient(false);
+    }
+    
+    @Override
+    public SimpleDateFormat get() {
+      return this.delegate;
+    }
+    
+    @Override
+    public void set(final SimpleDateFormat value) {
+    }
+  }
+  
+  /**
+   * The YANG revision format.
+   * <br>
+   * From RFC-7950: {@code YYYY-MM-DD}.
+   * <br>
+   * Corresponding JAVA representation: {@code yyyy-MM-dd}.
+   * <p>
+   * See: https://tools.ietf.org/html/rfc7950#section-7.1.9
+   */
+  public final static String REVISION_FORMAT = "yyyy-MM-dd";
+  
+  /**
+   * The thread safe date format for the revision date.
+   */
+  private final static TURNDateUtils.DateFormatThreadLocal REVISION_DATE_FORMAT = new TURNDateUtils.DateFormatThreadLocal(TURNDateUtils.REVISION_FORMAT);
+  
+  /**
+   * Null-safe revision comparator that does not compare the revisions at all if
+   * the dates cannot be interpreted and/or parsed.
+   */
+  private final static /* Comparator<Revision> */Object REVISION_DATE_COMPARATOR /* Skipped initializer because of errors */;
+  
+  /**
+   * Returns with {@code true} if the first revision argument is
+   * chronological strictly greater than the second argument.
+   * If any of the arguments is {@code null}, or the date information is
+   * not available (or invalid) for any of the arguments, this method returns {@code false}.
+   */
+  public static boolean isGreaterThan(final /* Revision */Object left, final /* Revision */Object right) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangDateUtils.REVISION_DATE_COMPARATOR refers to the missing type Revision");
+  }
+  
+  /**
+   * Returns with the date format for YANG revisions.
+   */
+  public static SimpleDateFormat getRevisionDateFormat() {
+    return TURNDateUtils.REVISION_DATE_FORMAT.get();
+  }
+  
+  private YangDateUtils() {
+  }
+}

@@ -1,0 +1,27 @@
+package org.xtext.example.mydsl.ide.completion;
+
+import com.google.inject.Inject;
+import org.eclipse.xtext.ide.editor.contentassist.ContentAssistEntry;
+import org.eclipse.xtext.ide.editor.contentassist.IdeContentProposalAcceptor;
+
+/**
+ * Customized content proposal acceptor that automatically accepts all
+ * available template proposals for a particular keyword entry and disregards the
+ * keyword entry.
+ * 
+ * @author akos.kitta
+ */
+@SuppressWarnings("all")
+public class YangContentProposalAcceptor extends IdeContentProposalAcceptor {
+  @Inject
+  private /* YangTemplateProposalProvider */Object templateProposalProvider;
+  
+  @Override
+  public void accept(final ContentAssistEntry entry, final int priority) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field YangContentProposalAcceptor.templateProposalProvider refers to the missing type YangTemplateProposalProvider"
+      + "\ngetTemplateEntry cannot be resolved"
+      + "\nnullOrEmpty cannot be resolved"
+      + "\nforEach cannot be resolved");
+  }
+}

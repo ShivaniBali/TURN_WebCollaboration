@@ -1,0 +1,7 @@
+package org.xtext.example.mydsl.ide.rename;
+
+import org.eclipse.xtext.ide.refactoring.IRenameStrategy2;
+
+@SuppressWarnings("all")
+public class YangRenameStrategy extends IRenameStrategy2.DefaultImpl {
+}

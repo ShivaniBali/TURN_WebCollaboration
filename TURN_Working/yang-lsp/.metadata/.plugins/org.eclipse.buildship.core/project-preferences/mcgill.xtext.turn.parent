@@ -1,0 +1,10 @@
+#
+#Thu Nov 22 16:50:54 EST 2018
+linkedResources=
+managedNatures=
+classpath=<?xml version\="1.0" encoding\="UTF-8"?>\n<classpath>\n</classpath>\n
+subprojectPaths=mcgill.xtext.turn\:mcgill.xtext.turn.diagram\:mcgill.xtext.turn.ide
+derivedResources=.gradle\:build\:mcgill.xtext.turn/build\:mcgill.xtext.turn.diagram/build\:mcgill.xtext.turn.ide/build
+buildScriptPath=build.gradle
+managedBuilders=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><commands/>
+buildDir=build

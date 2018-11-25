@@ -1,0 +1,360 @@
+grammar org.xtext.example.mydsl.TURN with org.eclipse.xtext.common.Terminals
+
+generate tURN "http://www.xtext.org/example/mydsl/TURN"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+URNspec:
+	'urnModel' name=QualifiedName
+	info=(ConcreteURNspec)?
+	actors+=Actor*
+	stratGroup+=StrategiesGroup*
+	strategies+=EvaluationStrategy*
+	indConversions+=IndicatorConversion*
+	contribContextGroup+=ContributionContextGroup*
+	contribContexts+=ContributionContext*
+	(showAsMeansEnd?='showAsMeansEnd')?
+	grlGraph+=GRLGraph*
+	ucmMaps+=UCMmap*
+	componentType+=ComponentType*
+	componentRef+=ComponentRef* 
+	concerns+=Concern*
+	urnlinks+=URNlink*
+	('metadata' '{' metadata+=Metadata* '}');
+	
+ConcreteURNspec: '{'
+	'description' description=STRING
+	'author' author=STRING
+	'created' created=STRING
+	'modified' modified=STRING
+	'version' specVersion=STRING
+	'urnVersion' urnVersion=STRING
+'}';
+
+Concern: 'concern' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber ':'
+	(condition=Condition)? '{'
+	 element=[URNmodelElement | QualifiedName]
+	(',' elements+=[URNmodelElement | QualifiedName]*)?
+'}';
+
+LongNameAndIDNumber: {LongNameAndIDNumber} ('#' longname= ( ID | STRING ))?
+	('<' 'id' id=IDNumber '>')?;
+
+Description: 'description' description=STRING;
+	
+Condition: ('if' 
+	'[' expression=Text ']') | ('[' expression=Text ']' )
+	('{'(info=ConcreteCondition)?
+	)?;
+
+ConcreteCondition: label=STRING
+	description=STRING;
+	
+URNlink: 'link' (name=QualifiedName ':')? 
+	longNameAndId=LongNameAndIDNumber 
+	('type' type=Text)?
+	fromElem=[URNmodelElement | QualifiedName] '-->' 
+	toElem=[URNmodelElement | QualifiedName] ;
+
+Metadata: elem = [URNmodelElement] ':' 
+	(description=STRING)?
+	 '{' name=ID '=' value=Text '}';
+
+URNmodelElement: ArtificialRule | URNlink | Concern | Actor | IntentionalElement | Contribution | Decomposition | Dependency | EvaluationStrategy | LinearConversion | QualToQMappings | ContributionContext | UCMmap | RespRef | WaitingPlace | FailurePoint | Stub | OrFork | OrJoin | AndFork | AndJoin | Timer | ComponentRef;
+Actor hidden(WS):
+	'actor' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber '{'
+	('importance' (importance=ImportanceType | importanceQuantitative=QuantitativeValue))?
+	elems+=IntentionalElement*
+	('lineColor' lineColor=STRING)?
+	('fillColor' fillColor=STRING)?
+	(filled?='filled')?
+'}';
+
+IntentionalElement: 
+	type=IntentionalElementType name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber '{'
+	('importance' (importance=ImportanceType | importanceQuantitative=QuantitativeValue))?
+	('unit' unit=STRING)?
+	linksSrc+=ElementLink*
+	('lineColor' lineColor=STRING)?
+	('fillColor' fillColor=STRING)?
+	(filled?='filled')?
+'}';
+
+ElementLink: Contribution | Decomposition | Dependency;
+
+Contribution: (name=QualifiedName)?
+	longNameAndId=LongNameAndIDNumber
+	'contributesTo' dest=[IntentionalElement | QualifiedName] 
+	(correlation?='correlated')? 'with' (contribution=ContributionType | 
+	quantitativeContribution=QuantitativeValue);
+
+Decomposition: (name=QualifiedName)?
+	longNameAndId=LongNameAndIDNumber
+	decompositionType=DecompositionType 'decomposes' dest=[IntentionalElement | QualifiedName]
+;
+
+Dependency: (name=QualifiedName)?
+	longNameAndId=LongNameAndIDNumber
+	'dependsOn' dest=[IntentionalElement | QualifiedName];
+
+ArtificialRule: (longName=STRING)?;
+
+StrategiesGroup: 'strategiesGroup' name=QualifiedName ':'
+	longNameAndId=LongNameAndIDNumber 
+	evalStrategy=[EvaluationStrategy] 
+	(','evalStrategies+=[EvaluationStrategy]*)?
+;
+	
+EvaluationStrategy: 'strategy' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber '{'
+	info=(ConcreteStrategy)?
+	evaluations+=Evaluation*
+	('includes''{' includedStrategies+=[EvaluationStrategy]* '}')?
+'}';
+
+ConcreteStrategy: 'author' author=STRING;
+
+Evaluation: intElement=[IntentionalElement | QualifiedName] 
+	(exceeds?='exceeding')? (('evaluation' (qualitativeEvaluation=QualitativeLabel | evaluation=QuantitativeValue))
+		| (indicatorEval=IndicatorEvaluation'convertedWith' conversion=[IndicatorConversion]))
+;
+
+IndicatorEvaluation: 'real' (realWorldLabel=STRING | realWorldValue=INT);
+
+IndicatorConversion: LinearConversion | QualToQMappings;
+
+LinearConversion:'linearConversion' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber'{'
+	'unit' unit=STRING
+	'target' targetValue=INT
+	'threshold' thresholdValue=INT
+	'worst' worstValue=INT
+'}';
+
+QualToQMappings:'mappingConversion' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber'{'
+	'unit' unit=STRING
+	mappings+=QualToQMapping+
+'}';
+
+QualToQMapping: (exceeds?='exceeding')? 'real' realWorldLabel=STRING '-->' (qualitativeEvaluation=QualitativeLabel | evaluation= QuantitativeValue);
+
+ContributionContextGroup: 'contributionContextGroup' name=QualifiedName ':'
+	longNameAndId=LongNameAndIDNumber 
+	contribContext=[ContributionContext]
+	(',' contribContexts+=[ContributionContext]*)?
+;
+	
+ContributionContext:'contributionContext' name=QualifiedName
+	longNameAndId=LongNameAndIDNumber '{'
+	changes+=ContributionChange*
+	('includes' includedContexts+=[ContributionContext]*)?
+'}';
+
+ContributionChange: contribution=[Contribution | QualifiedName] 
+	'with' (newContribution=ContributionType | newQuantitativeContribution=QuantitativeValue);
+	
+GRLGraph hidden(WS): 'grlGraph' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber '{'
+	actorRef+=(ActorRef)* 
+'}';
+	
+ActorRef: 'actorRef' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber '{'
+	actor=[Actor | QualifiedName]
+	intElemRef+=[IntentionalElementRef]* 
+'}';
+
+IntentionalElementRef: 'IntentionalElementRef' name=QualifiedName
+	longNameAndId=LongNameAndIDNumber '{'
+	actor=[IntentionalElement | QualifiedName]
+	linkRef=[LinkRef]
+'}';
+
+LinkRef: name=QualifiedName 'linksTo' 
+	longNameAndId=LongNameAndIDNumber
+	intElemRef=[IntentionalElementRef | QualifiedName]  '{'
+	elemLink=[ElementLink | QualifiedName]
+	(curve?='curve')?
+	('bendpoints' (x+=INT 'x' y+=INT 'y')+)?
+'}';
+	
+enum QualitativeLabel: denied | weaklyDenied | weaklySatisfied | satisfied | conflict | unknown | none;
+
+enum IntentionalElementType: softgoal | goal | task | ressource | belief | indicator;
+
+enum ContributionType: undefined | make | help | somePositive | unknown | someNegative| hurt | break;
+
+enum ImportanceType: high | medium | low | none;
+
+enum DecompositionType: and | or | xor;
+
+QuantitativeValue returns ecore::EInt: ('-'|'+')? INT;
+
+UCMmap: (singleton?='singleton')?  'map' name=QualifiedName 
+	longNameAndId=LongNameAndIDNumber '{'
+	stub+=StubDeclaration*
+	paths+=Path*
+	component+=ComponentRef*
+'}';
+
+Path: startPoint=StartPoint
+	 pathBody = PathBody;
+
+StartPoint: (('start' name=QualifiedName longNameAndId=LongNameAndIDNumber) | ('start'   name=QualifiedName '>' longNameAndId=LongNameAndIDNumber) | 
+	(('abort' | 'failure') name=QualifiedName longNameAndId=LongNameAndIDNumber ('catches' catches=STRING)?))
+	(condition=Condition)?;
+
+PathBody: PathWithRegularEnd;
+
+PathWithRegularEnd returns PathBody: PathWithReferencedEnd (pathEnd=RegularEnd)?;
+
+PathWithReferencedEnd returns PathBody: PathWithReferencedStub (
+	 (referencedEnd=[ReferencedEnd | QualifiedName])? ';')?;
+
+PathWithReferencedStub returns PathBody: PathWithReferencedTimer (('in'
+	referencedStub=[Stub | QualifiedName] 
+	 index=PositiveInteger ';') | (pathName=PathName '>' referencedStub=[Stub]))?;
+	 
+PathWithReferencedTimer returns PathBody: PathBodyNodes ('trigger' 
+	referencedTimer=[Timer | QualifiedName] 
+	 ';')? ;	 
+	
+PathBodyNodes: {PathBodyNodes} Arrow (pathNodes+=PathBodyNode '->')* ;	
+	
+Arrow: '->'	;
+
+PathBodyNode: AndJoin | RespRef | OrJoin | WaitingPlace | FailurePoint | Timer | Connect; 
+
+RegularEnd: EndpointWithConnect | AndFork | OrFork | Stub;
+
+EndpointWithConnect: regularEnd=EndPoint
+  ('->' connect=Connect )?;
+
+ReferencedEnd: RespRef | OrJoin | Stub | AndJoin | FailurePoint;	
+
+RespRef: ('X')? name = QualifiedName 
+	longNameAndId=LongNameAndIDNumber;
+
+OrJoin: {OrJoin} ('join' (name = QualifiedName)?) | ('>' (name = QualifiedName)?)
+	longNameAndId=LongNameAndIDNumber;
+
+AndJoin: ('synch' | 'sync' | '|') (name = QualifiedName)? 
+	longNameAndId=LongNameAndIDNumber;
+	
+WaitingPlace:  kind=(WAITKIND)? 'wait' (name=QualifiedName)?
+	longNameAndId=LongNameAndIDNumber
+	(condition=Condition)?;
+
+Timer: 'timer' (name=QualifiedName)?
+	longNameAndId=LongNameAndIDNumber '{'
+	//'regular' condition=(Condition)? regularPath = PathBody
+	('timeout')? condition=(Condition)?  timeoutPath = PathBody
+'}';
+
+Connect: 'trigger' ('>')?
+	connectsTo= [Connects | QualifiedName] ';';
+
+Connects: WaitingPlace | Timer | StartPoint;
+
+FailurePoint: 'fail' (name = QualifiedName)? 
+	longNameAndId=LongNameAndIDNumber
+	(raises=STRING)?
+	((condition=Condition failLabel=FailureLabel) | (failLabel=FailureLabel condition=Condition))?;
+	
+EndPoint: ('end' (name = QualifiedName)? (condition=Condition)? '.' longNameAndId=LongNameAndIDNumber) | ('ep'(name = QualifiedName)?  (condition=Condition)?'.' longNameAndId=LongNameAndIDNumber);
+
+OrFork: 'or'(((name=QualifiedName)? longNameAndId=LongNameAndIDNumber '{'
+	body=OrBody
+	'}') | condition=Condition) 
+	(';' connectingOrBody=PathBody)?;
+	
+OrBody: ElseOrForkBody;
+	
+ElseOrForkBody returns OrBody: OrForkBody ('[else]' elseBody=PathBody)?;	
+
+OrForkBody returns OrBody:(regularBody+=RegularOrFork)+;
+	
+RegularOrFork: condition=Condition	
+	 pathBody=PathBody;	
+	
+AndFork: 'and' (name=QualifiedName)? longNameAndId=LongNameAndIDNumber '{'
+	('*'pathbody+=PathBody)*
+   '}'(';' connectingAndBody=PathBody)?;
+ 
+Stub: 'test'(('stub' ('in' index=PositiveInteger)?) | 'test'(pathName=PathName '>'))?
+	(((name = QualifiedName)? params=StubParameters) | (stubRef=[StubDeclaration | QualifiedName]))
+	longNameAndId=LongNameAndIDNumber 
+	('{'
+	outPath+=StubOutPath*  
+	'}')? 
+	(';'connectingStubBody=Path)?;
+
+PathName: QualifiedName | PositiveInteger;
+
+StubParameters: {StubParameters} (stubType=STUBTYPE)? 
+	'(' plugin+=PluginBinding* ')';	
+
+StubDeclaration: name=QualifiedName '=' 
+	params=StubParameters;
+
+StubOutPath: 'testStub'(('out' index=PositiveInteger) | pathName=PathName '>')
+	('threshold' '[' value=PositiveInteger ']')?
+	  path=PathBody;
+
+PluginBinding:(condition=Condition)?
+	('replication' index=PositiveInteger)?
+	 map=[UCMmap] 
+	 ('{'
+	('ID' ID=IDNumber)? '}')?
+	(':'binding=Binding 
+	(',' bindings+=Binding)*)?;
+	
+ComponentType: 'componentType' name=QualifiedName longNameAndId=LongNameAndIDNumber;
+
+ComponentRef:'testCompRef'((('protected')? 'context' kind=(COMPONENTKIND)?) | ('parent')?) 
+	 name=QualifiedName longNameAndId=LongNameAndIDNumber 
+	 (':' element= BoundOptions (',' elements+=BoundOptions)*)?
+	 ('{' 
+	compType=[ComponentType]?
+	('lineColor' lineColor=STRING)?
+	('fillColor' fillColor=STRING)?
+	(filled?='filled')?
+'}')?;
+
+BoundOptions:  BoundElement | LongBoundElement;
+
+BoundElement: elem = [BoundElements | QualifiedName];
+
+BoundElements: (ComponentRef | StartPoint | PathBodyNode | EndPoint | RegularEnd);
+
+LongBoundElement: from=(QualifiedName) '..' to=(QualifiedName);
+
+Binding: InBinding | OutBinding | ComponentBinding;
+
+InBinding: mapStart = [StartPoint | QualifiedName] '=' (('in' index=PositiveInteger) | pathName=PathName '>');
+
+OutBinding: mapEnd = [EndPoint | QualifiedName] '=' (('out' index=PositiveInteger) | pathName=PathName '<');
+
+ComponentBinding: componentIn=[ComponentRef | QualifiedName] '=' componentOut=[ComponentRef | QualifiedName];
+
+FailureLabel: '[[' failure=STRING ']]';
+
+enum WAITKIND: persistent | transient;
+
+STUBTYPE: 'synchronizing' | 'blocking' | 'synchronizing' 'blocking' | 'blocking' 'synchronizing';
+	
+enum COMPONENTKIND: team | object | process | agent | actor;
+
+PositiveInteger returns ecore::EInt: INT;
+
+IDNumber returns ecore::EInt: INT;
+
+Text: content+=TextContent+;
+TextContent: ID | ('@') | ('#') | '!' | '%' | '&' | '*' | INT;
+
+QualifiedName:
+  ID ('.' ID)*;

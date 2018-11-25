@@ -1,0 +1,20 @@
+grammar org.xtext.example.mydsl.TURN with org.eclipse.xtext.common.Terminals
+
+generate tURN "http://www.xtext.org/example/mydsl/TURN"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+URNspec:
+	actors+=Actor*
+;
+	
+
+
+Actor hidden(WS):
+	'actor' name=QualifiedName 
+'}';
+
+
+
+QualifiedName:
+  ID ('.' ID)*;
